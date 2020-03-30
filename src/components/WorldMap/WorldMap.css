@@ -1,0 +1,17 @@
+#country_tooltip {
+    display: none;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 1;
+    background-color: #ffffff;
+    border: 2px solid #BF0A30;
+    border-radius: 5px;
+    padding: 5px;
+    font-family: arial;
+}
+.color0 {fill: #b9b9b9;}
+.color1 {fill: #ffa4a9;}
+.color2 {fill: #cc6674;}
+.color3 {fill: #993341;}
+.color4 {fill: #66000e;}
