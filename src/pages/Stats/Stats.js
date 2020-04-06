@@ -37,7 +37,7 @@ class Stats extends Component{
         return (
             <Fragment>
                 {this.state.loadingData ? (
-                    <Loader type="ThreeDots" color="#2BAD60" height="100" width="100" />
+                    <Loader type="ThreeDots" color="#2BAD60" height={100} width={100} />
                 ) : <WorldMap
                     country_stats = {this.state.countryStats}
                     testVal = "hello"
