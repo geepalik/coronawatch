@@ -1,4 +1,5 @@
 import React, {Component, Fragment} from "react";
+import axios from 'axios';
 import Loader from 'react-loader-spinner';
 import WorldMap from "../../components/WorldMap/WorldMap";
 
@@ -10,29 +11,27 @@ class Stats extends Component{
     state = {
         loadingData: true,
         totalWorldStats : {},
-        countryStats : {},
+        countryStats : [],
     };
 
     componentDidMount() {
-        fetch(apiUrl+'/coronawatch/stats')
-            .then(res => {
-                if(res.status !== 200){
-                    throw new Error('Failed to get data');
-                }
-                return res.json();
-            })
-            .then(resData => {
-                this.setState({loadingData: false});
-                this.setState({totalWorldStats: resData.total_world_stats});
-                this.setState({countryStats: resData.country_stats});
-                //console.log(resData);
-            })
-            .catch(err => {
-                //dialog box cant get fresh data
-                //get from local storage
-                throw new Error('Failed to get data');
-            });
+        try{
+            this.getData().catch(err => {throw new Error('Failed to get data');});
+        }catch (e) {
+            //dialog box cant get fresh data
+            //get from local storage
+            throw new Error('Failed to get data');
+        }
     }
+
+    getData = async () => {
+        const response = await axios(apiUrl+'/coronawatch/stats');
+        const data = response.data;
+        this.setState({loadingData: false});
+        this.setState({totalWorldStats: data.world_stats[0]});
+        this.setState({countryStats: data.country_stats});
+    };
+
     render() {
         return (
             <Fragment>
@@ -40,7 +39,6 @@ class Stats extends Component{
                     <Loader type="ThreeDots" color="#2BAD60" height={100} width={100} />
                 ) : <WorldMap
                     country_stats = {this.state.countryStats}
-                    testVal = "hello"
                 /> }
             </Fragment>
         )

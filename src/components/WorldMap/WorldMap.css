@@ -1,8 +1,12 @@
-#country_tooltip {
+#svgMapWrapper{width: 100vw!important; height: 140vh!important;}
+#svgMapWrapper>svg>path:hover{
+    fill:#e3e3e3!important;filter:drop-shadow(0 10px 5px rgba(0, 0, 0, .3))!important;
+    -webkit-filter:drop-shadow(0 10px 5px rgba(0, 0, 0, .3))!important
+}
+
+#tooltip {
     display: none;
     position: absolute;
-    top: 0px;
-    left: 0px;
     z-index: 1;
     background-color: #ffffff;
     border: 2px solid #BF0A30;
@@ -10,8 +14,6 @@
     padding: 5px;
     font-family: arial;
 }
-.color0 {fill: #b9b9b9;}
-.color1 {fill: #ffa4a9;}
-.color2 {fill: #cc6674;}
-.color3 {fill: #993341;}
-.color4 {fill: #66000e;}
+#tooltip.active{
+    display: block;
+}
