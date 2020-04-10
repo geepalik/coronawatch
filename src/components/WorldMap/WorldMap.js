@@ -50,33 +50,67 @@ class WorldMap extends Component{
         });
     };
 
+    /**
+     *
+     * @param array
+     * @param indexLookup
+     * @param keyToRemove
+     * @returns {*}
+     */
+    getRowFromObject = (array, indexLookup,keyToRemove) =>{
+        return array.filter(function (array) {
+            return array[indexLookup] === keyToRemove;
+        });
+    };
+
+    /**
+     *
+     * @param event
+     */
+    showTooltip = (event) => {
+        document.getElementById("tooltip").classList.add("active");
+        document.getElementById("tooltip").innerHTML = event.target.getAttribute("datainfo");
+    };
+
+    hideTooltip = () => {
+        document.getElementById("tooltip").classList.remove("active");
+        document.getElementById("tooltip").style.top = "";
+        document.getElementById("tooltip").style.left = "";
+        document.getElementById("tooltip").innerHTML = "";
+    };
+
+    /**
+     *
+     * @param event
+     */
+    moveTooltip = (event) => {
+        document.getElementById("tooltip").setAttribute("style","top:"+event.pageY+"px; left:"+event.pageX+"px;");
+    };
+
+    /**
+     *
+     * @param event
+     */
+    clickCountry = (event) => {
+        const countryName = event.target.getAttribute("title");
+        const countryData = this.getRowFromObject(this.props.country_stats, 'country', countryName);
+        //update chart here
+        console.log(countryData);
+    };
+
     render() {
         this.initMap(this.props.country_stats);
-        Object.entries(document.querySelectorAll('#svgMapWrapper>svg>path')).map((object) => {
-            object[1].addEventListener("mouseover",function(){
-                document.getElementById("tooltip").classList.add("active");
-                document.getElementById("tooltip").innerHTML = this.getAttribute("datainfo");
-            });
-            object[1].addEventListener("mouseout",function(){
-                document.getElementById("tooltip").classList.remove("active");
-                document.getElementById("tooltip").style.top = "";
-                document.getElementById("tooltip").style.left = "";
-                document.getElementById("tooltip").innerHTML = "";
-            });
-            object[1].addEventListener("mousemove",function(e){
-                document.getElementById("tooltip").setAttribute("style","top:"+e.pageY+"px; left:"+e.pageX+"px;");
-            });
-            object[1].addEventListener("click",function(){
-                //get chart data
-                //update chart -> another component
-            });
-        });
 
         return (
             <div id="world_map_container">
                 <div id="tooltip"></div>
                 <div id="svgMapWrapper">
-                    <WorldMapSvg />
+                    <WorldMapSvg
+                        onClick={this.clickCountry}
+                        onMouseEnter={this.showTooltip}
+                        onMouseLeave={this.hideTooltip}
+                        onMouseMove={this.moveTooltip}
+                    />
                 </div>
             </div>
             );
