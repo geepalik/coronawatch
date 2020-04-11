@@ -40,6 +40,10 @@ class WorldMap extends Component{
         if(countryTotal >= 100000){return color4;}
     };
 
+    /**
+     *
+     * @returns {{background: string}}
+     */
     getGradientStyle = () =>{
         return {
             background: 'linear-gradient(90deg, '+color1+' 0, '+color5+' 100%)'
@@ -70,7 +74,7 @@ class WorldMap extends Component{
     };
 
     /**
-     *
+     * show toolptip when hovering over country
      * @param event
      */
     showTooltip = (event) => {
@@ -78,6 +82,9 @@ class WorldMap extends Component{
         document.getElementById("tooltip").innerHTML = event.target.getAttribute("datainfo");
     };
 
+    /**
+     * hide tooltip when hovering away from country
+     */
     hideTooltip = () => {
         document.getElementById("tooltip").classList.remove("active");
         document.getElementById("tooltip").style.top = "";
@@ -86,7 +93,7 @@ class WorldMap extends Component{
     };
 
     /**
-     *
+     * make tooltip follow mouse cursor
      * @param event
      */
     moveTooltip = (event) => {
