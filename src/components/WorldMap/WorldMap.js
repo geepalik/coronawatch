@@ -40,6 +40,12 @@ class WorldMap extends Component{
         if(countryTotal >= 100000){return color4;}
     };
 
+    getGradientStyle = () =>{
+        return {
+            background: 'linear-gradient(90deg, '+color1+' 0, '+color5+' 100%)'
+        }
+    };
+
     /**
      *
      * @param countryStats
@@ -105,6 +111,10 @@ class WorldMap extends Component{
             <div id="world_map_container">
                 <div id="tooltip"></div>
                 <div id="svgMapWrapper">
+                    <div className="indicator">
+                        <div style={this.getGradientStyle()} className="indicator-gradient"></div>
+                        <span>1 - 100000+ Active Cases</span>
+                    </div>
                     <WorldMapSvg
                         onClick={this.clickCountry}
                         onMouseEnter={this.showTooltip}

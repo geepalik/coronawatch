@@ -17,3 +17,23 @@
 #tooltip.active{
     display: block;
 }
+
+.indicator {
+    width: 100%;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+.indicator>* {
+    display: inline-block;
+}
+
+.indicator-gradient {
+    width: 150px;
+    height: 15px;
+}
+
+.indicator span {
+    margin-left: 5px;
+    line-height: 15px;
+}
