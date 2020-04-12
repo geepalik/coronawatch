@@ -97,7 +97,7 @@ class WorldMap extends Component{
      * @param event
      */
     moveTooltip = (event) => {
-        document.getElementById("tooltip").setAttribute("style","top:"+event.pageY+"px; left:"+event.pageX+"px;");
+        document.getElementById("tooltip").setAttribute("style","top:"+(event.pageY+20)+"px; left:"+event.pageX +"px;");
     };
 
     /**
