@@ -4,7 +4,7 @@ import Loader from 'react-loader-spinner';
 import WorldMap from "../../components/WorldMap/WorldMap";
 
 
-const apiUrl = "http://localhost:8080";
+const apiUrl = "http://10.0.0.7:8080";
 
 class Stats extends Component{
 

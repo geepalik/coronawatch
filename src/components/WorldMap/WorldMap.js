@@ -1,6 +1,7 @@
-import React,{Component} from "react";
+import React,{Component, memo, useState} from "react";
 import './WorldMap.css';
-import WorldMapSvg from "./WorldMapSvg";
+import {ComposableMap, Geographies, Geography, ZoomableGroup} from "react-simple-maps";
+import ReactTooltip from 'react-tooltip';
 
 const color1 = '#ffe5e5';
 const color2 = '#ff8080';
@@ -8,130 +9,158 @@ const color3 = '#ff1a1a';
 const color4 = '#b30000';
 const color5 = '#4d0000';
 
-class WorldMap extends Component{
+const geoUrl =
+    "https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json";
 
-    /**
-     *
-     * @param countryName
-     * @param countryStats
-     */
-    renderCountryInMap = (countryName, countryStats) => {
-        const svgCountry = document.querySelector('[title="'+countryName+'"]');
-        //fill country with color depending on value of total confirmed cases
-        if(svgCountry && countryStats && countryStats.hasOwnProperty('confirmed')){
-            const svgStatShow = countryStats.confirmed;
-            svgCountry.style.fill = this.fillCountryColor(svgStatShow);
-            svgCountry.setAttribute("datainfo","<p>"+countryName+"</p><p>Confirmed:"+countryStats.confirmed+"</p><p>Deaths:"+countryStats.deaths+"<p><p>Recovered:"+countryStats.recovered+"<p>");
-        }else{
-            svgCountry.setAttribute("datainfo","<p>"+countryName+"</p><p>No data</p>");
-            console.log("could not fill country "+countryName);
-        }
-    };
+const WorldMap = ({country_stats}) => {
+    const [position, setPosition] = useState({ coordinates: [0, 0], zoom: 1 });
+    const [content, setContent] = useState("");
 
-    /**
-     *
-     * @param countryTotal
-     * @returns {string}
-     */
-    fillCountryColor = (countryTotal) => {
-        if(countryTotal <= 999){return color1;} else
-        if(countryTotal >= 1000 && countryTotal <= 9999){return color2;} else
-        if(countryTotal >= 10000 && countryTotal <= 99999){return color3;} else
-        if(countryTotal >= 100000){return color4;}
-    };
+    function handleZoomIn () {
+        if(position.zoom >= 4) return;
+        setPosition(pos => ({ ...pos, zoom: pos.zoom * 2}));
+    }
+
+    function handleZoomOut () {
+        if(position.zoom <= -1) return;
+        setPosition(pos => ({ ...pos, zoom: pos.zoom / 2}));
+    }
+
+    function handleMoveEnd(position) {
+        setPosition(position);
+    }
+
+    function getRowFromObject(array, indexLookup,keyToRemove, alternativeKey){
+        return array.filter(function (array) {
+            return (array[indexLookup] === keyToRemove || array[indexLookup] === alternativeKey);
+        });
+    }
 
     /**
      *
      * @returns {{background: string}}
      */
-    getGradientStyle = () =>{
+    function getGradientStyle() {
         return {
             background: 'linear-gradient(90deg, '+color1+' 0, '+color5+' 100%)'
         }
-    };
+    }
 
-    /**
-     *
-     * @param countryStats
-     */
-    initMap = (countryStats) =>{
-        countryStats.forEach(country =>{
-            this.renderCountryInMap(country.country,country.country_total_stats);
-        });
-    };
+    function getColorFromTotal(countryTotal) {
+        if(countryTotal <= 999){return color1;} else
+        if(countryTotal >= 1000 && countryTotal <= 9999){return color2;} else
+        if(countryTotal >= 10000 && countryTotal <= 99999){return color3;} else
+        if(countryTotal >= 100000){return color4;}
+    }
 
-    /**
-     *
-     * @param array
-     * @param indexLookup
-     * @param keyToRemove
-     * @returns {*}
-     */
-    getRowFromObject = (array, indexLookup,keyToRemove) =>{
-        return array.filter(function (array) {
-            return array[indexLookup] === keyToRemove;
-        });
-    };
+    function fillCountryColor(countryName, countryNameLong) {
+        let countryData = getRowFromObject(country_stats, 'country', countryName, countryNameLong);
+        if(countryData.length === 0){
+            console.log("couldnt fill color for country "+countryName);
+        }else{
+            if(countryData[0].country_total_stats && countryData[0].country_total_stats.hasOwnProperty('confirmed')){
+                return getColorFromTotal(countryData[0].country_total_stats.confirmed);
+            }else{
+                console.log("Country "+countryName+" doesnt have confirmed value");
+            }
+        }
+    }
 
-    /**
-     * show toolptip when hovering over country
-     * @param event
-     */
-    showTooltip = (event) => {
-        document.getElementById("tooltip").classList.add("active");
-        document.getElementById("tooltip").innerHTML = event.target.getAttribute("datainfo");
-    };
+    function getTooltipData(countryName, countryNameLong, population) {
+        let countryData = getRowFromObject(country_stats, 'country', countryName, countryNameLong);
+        let countryResults = "No data for "+countryName;
+        if(
+            countryData.length > 0 &&
+            countryData[0].country_total_stats &&
+            countryData[0].country_total_stats.hasOwnProperty('confirmed')
+        ){
+            const countryTotalStats = countryData[0].country_total_stats;
+            countryResults =  countryName+" <br>Confirmed: "+countryTotalStats.confirmed+"<br>Deaths: "+countryTotalStats.deaths+"<br>Recovered: "+countryTotalStats.recovered;
+        }
+        return countryResults;
+    }
 
-    /**
-     * hide tooltip when hovering away from country
-     */
-    hideTooltip = () => {
-        document.getElementById("tooltip").classList.remove("active");
-        document.getElementById("tooltip").style.top = "";
-        document.getElementById("tooltip").style.left = "";
-        document.getElementById("tooltip").innerHTML = "";
-    };
-
-    /**
-     * make tooltip follow mouse cursor
-     * @param event
-     */
-    moveTooltip = (event) => {
-        document.getElementById("tooltip").setAttribute("style","top:"+(event.pageY+20)+"px; left:"+event.pageX +"px;");
-    };
-
-    /**
-     *
-     * @param event
-     */
-    clickCountry = (event) => {
-        const countryName = event.target.getAttribute("title");
-        const countryData = this.getRowFromObject(this.props.country_stats, 'country', countryName);
-        //update chart here
-        console.log(countryData);
-    };
-
-    render() {
-        this.initMap(this.props.country_stats);
-
-        return (
-            <div id="world_map_container">
-                <div id="tooltip"></div>
-                <div id="svgMapWrapper">
-                    <div className="indicator">
-                        <div style={this.getGradientStyle()} className="indicator-gradient"></div>
-                        <span>1 - 100000+ Active Cases</span>
-                    </div>
-                    <WorldMapSvg
-                        onClick={this.clickCountry}
-                        onMouseEnter={this.showTooltip}
-                        onMouseLeave={this.hideTooltip}
-                        onMouseMove={this.moveTooltip}
-                    />
+    return (
+        <div id="world_map_container">
+            <ReactTooltip>{content}</ReactTooltip>
+            <div id="svgMapWrapper">
+                <div className="indicator">
+                    <div style={getGradientStyle()} className="indicator-gradient"></div>
+                    <span>1 - 100000+ Active Cases</span>
+                </div>
+                <ComposableMap
+                    projection="geoMercator"
+                    data-tip=""
+                    data-html="true"
+                >
+                    <ZoomableGroup
+                        zoom={position.zoom}
+                        center={position.coordinates}
+                        onMoveEnd={handleMoveEnd}
+                    >
+                        <Geographies geography={geoUrl}>
+                            {({ geographies }) =>
+                                geographies.map(geo =>
+                                    <Geography
+                                        key={geo.rsmKey}
+                                        geography={geo}
+                                        fill={fillCountryColor(geo.properties.NAME, geo.properties.NAME_LONG)}
+                                        onMouseEnter={() => {
+                                            const { NAME, NAME_LONG, POP_EST } = geo.properties;
+                                            setContent(getTooltipData(NAME, NAME_LONG, POP_EST))
+                                            //setContent(`${NAME} — ${POP_EST}`);
+                                        }}
+                                        onMouseLeave={() => {
+                                            setContent("");
+                                        }}
+                                        onClick={() => {
+                                            console.log(geo.properties.NAME);
+                                        }}
+                                        style={{
+                                            hover: {
+                                                fill: "#D6D6DA",
+                                                outline: "none"
+                                            },
+                                            pressed: {
+                                                fill: "#E42",
+                                                outline: "none"
+                                            }
+                                        }}
+                                    />)
+                            }
+                        </Geographies>
+                    </ZoomableGroup>
+                </ComposableMap>
+                <div className="controls">
+                    <button onClick={handleZoomIn}>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth="3"
+                        >
+                            <line x1="12" y1="5" x2="12" y2="19" />
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                        </svg>
+                    </button>
+                    <button onClick={handleZoomOut}>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth="3"
+                        >
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                        </svg>
+                    </button>
                 </div>
             </div>
-            );
-    }
-}
+        </div>
+    );
+};
 
-export default WorldMap;
+export default memo(WorldMap);
