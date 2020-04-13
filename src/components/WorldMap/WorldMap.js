@@ -2,6 +2,7 @@ import React,{Component, memo, useState} from "react";
 import './WorldMap.css';
 import {ComposableMap, Geographies, Geography, ZoomableGroup} from "react-simple-maps";
 import ReactTooltip from 'react-tooltip';
+import ZoomInOutButtons from "../ZoomInOutButtons/ZoomInOutButtons";
 
 const color1 = '#ffe5e5';
 const color2 = '#ff8080';
@@ -53,6 +54,11 @@ const WorldMap = ({country_stats}) => {
         if(countryTotal >= 100000){return color4;}
     }
 
+    //TODO
+    //this and next function
+    //calculate fill color and hoverdata when loading the component (oncomponentmount)
+    //and add to country data to be shown when hovering
+    //instead of calculating when hovering and loading
     function fillCountryColor(countryName, countryNameLong) {
         let countryData = getRowFromObject(country_stats, 'country', countryName, countryNameLong);
         if(countryData.length === 0){
@@ -75,9 +81,13 @@ const WorldMap = ({country_stats}) => {
             countryData[0].country_total_stats.hasOwnProperty('confirmed')
         ){
             const countryTotalStats = countryData[0].country_total_stats;
-            countryResults =  countryName+" <br>Confirmed: "+countryTotalStats.confirmed+"<br>Deaths: "+countryTotalStats.deaths+"<br>Recovered: "+countryTotalStats.recovered;
+            countryResults =  countryName+" <br>Confirmed: "+countryTotalStats.confirmed+"("+calculatePercentage(population,countryTotalStats.confirmed)+"% of population)<br>Deaths: "+countryTotalStats.deaths+"<br>Recovered: "+countryTotalStats.recovered;
         }
         return countryResults;
+    }
+
+    function calculatePercentage(mainNumber, percentage) {
+        return Number((percentage / mainNumber)*100).toFixed(2);
     }
 
     return (
@@ -108,12 +118,12 @@ const WorldMap = ({country_stats}) => {
                                         onMouseEnter={() => {
                                             const { NAME, NAME_LONG, POP_EST } = geo.properties;
                                             setContent(getTooltipData(NAME, NAME_LONG, POP_EST))
-                                            //setContent(`${NAME} — ${POP_EST}`);
                                         }}
                                         onMouseLeave={() => {
                                             setContent("");
                                         }}
                                         onClick={() => {
+                                            //bind function to set clicked country for chart
                                             console.log(geo.properties.NAME);
                                         }}
                                         style={{
@@ -131,33 +141,10 @@ const WorldMap = ({country_stats}) => {
                         </Geographies>
                     </ZoomableGroup>
                 </ComposableMap>
-                <div className="controls">
-                    <button onClick={handleZoomIn}>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            strokeWidth="3"
-                        >
-                            <line x1="12" y1="5" x2="12" y2="19" />
-                            <line x1="5" y1="12" x2="19" y2="12" />
-                        </svg>
-                    </button>
-                    <button onClick={handleZoomOut}>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            strokeWidth="3"
-                        >
-                            <line x1="5" y1="12" x2="19" y2="12" />
-                        </svg>
-                    </button>
-                </div>
+                <ZoomInOutButtons
+                    handleZoomIn={handleZoomIn}
+                    handleZoomOut={handleZoomOut}
+                />
             </div>
         </div>
     );
