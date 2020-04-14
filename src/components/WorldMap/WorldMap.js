@@ -13,7 +13,7 @@ const color5 = '#4d0000';
 const geoUrl =
     "https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json";
 
-const WorldMap = ({country_stats}) => {
+const WorldMap = ({country_stats, getRowFromObject}) => {
     const [position, setPosition] = useState({ coordinates: [0, 0], zoom: 1 });
     const [content, setContent] = useState("");
 
@@ -31,12 +31,6 @@ const WorldMap = ({country_stats}) => {
         setPosition(position);
     }
 
-    function getRowFromObject(array, indexLookup,keyToRemove, alternativeKey){
-        return array.filter(function (array) {
-            return (array[indexLookup] === keyToRemove || array[indexLookup] === alternativeKey);
-        });
-    }
-
     /**
      *
      * @returns {{background: string}}
@@ -47,6 +41,11 @@ const WorldMap = ({country_stats}) => {
         }
     }
 
+    /**
+     *
+     * @param countryTotal
+     * @returns {string}
+     */
     function getColorFromTotal(countryTotal) {
         if(countryTotal <= 999){return color1;} else
         if(countryTotal >= 1000 && countryTotal <= 9999){return color2;} else
@@ -74,6 +73,13 @@ const WorldMap = ({country_stats}) => {
         }
     }
 
+    /**
+     *
+     * @param countryName
+     * @param countryNameLong
+     * @param population
+     * @returns {string}
+     */
     function getTooltipData(countryName, countryNameLong, population) {
         let countryData = getRowFromObject(country_stats, 'country', countryName, countryNameLong);
         let countryResults = "No data for "+countryName;
@@ -88,6 +94,12 @@ const WorldMap = ({country_stats}) => {
         return countryResults;
     }
 
+    /**
+     *
+     * @param mainNumber
+     * @param percentage
+     * @returns {string}
+     */
     function calculatePercentage(mainNumber, percentage) {
         return Number((percentage / mainNumber)*100).toFixed(2);
     }

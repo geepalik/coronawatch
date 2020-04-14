@@ -52,6 +52,20 @@ class Stats extends Component{
         return {xTime, yConfirmed, yDeaths, yRecovered};
     };
 
+    /**
+     *
+     * @param array
+     * @param indexLookup
+     * @param keyToRemove
+     * @param alternativeKey
+     * @returns {*}
+     */
+    getRowFromObject = (array, indexLookup,keyToRemove, alternativeKey) =>{
+        return array.filter(function (array) {
+            return (array[indexLookup] === keyToRemove || array[indexLookup] === alternativeKey);
+        });
+    };
+
     render() {
         return (
             <Fragment>
@@ -59,6 +73,7 @@ class Stats extends Component{
                     <Loader type="ThreeDots" color="#2BAD60" height={100} width={100} />
                 ) : <WorldMap
                     country_stats = {this.state.countryStats}
+                    getRowFromObject = {this.getRowFromObject}
                 />
                 }
                 {this.state.loadingData ? (
