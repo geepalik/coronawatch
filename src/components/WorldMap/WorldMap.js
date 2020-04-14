@@ -62,12 +62,14 @@ const WorldMap = ({country_stats}) => {
     function fillCountryColor(countryName, countryNameLong) {
         let countryData = getRowFromObject(country_stats, 'country', countryName, countryNameLong);
         if(countryData.length === 0){
-            console.log("couldnt fill color for country "+countryName);
+            //console.log("couldnt fill color for country "+countryName);
+            //log or show if we dont have data for this country
         }else{
             if(countryData[0].country_total_stats && countryData[0].country_total_stats.hasOwnProperty('confirmed')){
                 return getColorFromTotal(countryData[0].country_total_stats.confirmed);
             }else{
-                console.log("Country "+countryName+" doesnt have confirmed value");
+                //console.log("Country "+countryName+" doesnt have confirmed value");
+                //log or show if we dont have confirmed data for this country
             }
         }
     }
@@ -98,10 +100,15 @@ const WorldMap = ({country_stats}) => {
                     <div style={getGradientStyle()} className="indicator-gradient"></div>
                     <span>1 - 100000+ Active Cases</span>
                 </div>
+                <ZoomInOutButtons
+                    handleZoomIn={handleZoomIn}
+                    handleZoomOut={handleZoomOut}
+                />
                 <ComposableMap
                     projection="geoMercator"
                     data-tip=""
                     data-html="true"
+                    height={500}
                 >
                     <ZoomableGroup
                         zoom={position.zoom}
@@ -141,10 +148,6 @@ const WorldMap = ({country_stats}) => {
                         </Geographies>
                     </ZoomableGroup>
                 </ComposableMap>
-                <ZoomInOutButtons
-                    handleZoomIn={handleZoomIn}
-                    handleZoomOut={handleZoomOut}
-                />
             </div>
         </div>
     );

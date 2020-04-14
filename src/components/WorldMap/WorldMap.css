@@ -1,7 +1,13 @@
+/*
 #svgMapWrapper{width: 90vw!important; height: 140vh!important;}
 #svgMapWrapper>svg>path:hover{
     fill:#e3e3e3!important;filter:drop-shadow(0 10px 5px rgba(0, 0, 0, .3))!important;
     -webkit-filter:drop-shadow(0 10px 5px rgba(0, 0, 0, .3))!important
+}
+*/
+#world_map_container{
+    width: 55%;
+    float: left;
 }
 
 #tooltip {
