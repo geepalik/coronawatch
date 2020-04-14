@@ -32,6 +32,11 @@ class Stats extends Component{
         this.setState({countryStats: data.country_stats});
     };
 
+    /**
+     * return dates (x axis) and stats (y axis) for charts
+     * @param chartData
+     * @returns {{yDeaths: [], yRecovered: [], xTime: [], yConfirmed: []}}
+     */
     getChartData = (chartData) => {
         const xTime = [];
         const yConfirmed = [];
@@ -48,7 +53,6 @@ class Stats extends Component{
     };
 
     render() {
-        debugger;
         return (
             <Fragment>
                 {this.state.loadingData ? (
