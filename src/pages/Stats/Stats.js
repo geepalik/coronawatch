@@ -12,6 +12,8 @@ class Stats extends Component{
         loadingData: true,
         totalWorldStats : {},
         countryStats : [],
+        countriesSelected: [],
+        compareMode: false
     };
 
     componentDidMount() {
@@ -66,6 +68,23 @@ class Stats extends Component{
         });
     };
 
+    /**
+     * set clicked countries from map
+     * @param country
+     */
+    setSelectedCountries = (country) =>{
+        if(
+            this.state.countriesSelected.indexOf(country) === -1 &&
+            this.state.compareMode
+        ){
+            this.setState({
+                countriesSelected: [...this.state.countriesSelected, country]
+            });
+        }else{
+            this.setState({countrySelected: [country]});
+        }
+    };
+
     render() {
         return (
             <Fragment>
@@ -74,6 +93,7 @@ class Stats extends Component{
                 ) : <WorldMap
                     country_stats = {this.state.countryStats}
                     getRowFromObject = {this.getRowFromObject}
+                    setClickedCountry = {this.setSelectedCountries}
                 />
                 }
                 {this.state.loadingData ? (

@@ -13,7 +13,7 @@ const color5 = '#4d0000';
 const geoUrl =
     "https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json";
 
-const WorldMap = ({country_stats, getRowFromObject}) => {
+const WorldMap = ({country_stats, getRowFromObject, setClickedCountry}) => {
     const [position, setPosition] = useState({ coordinates: [0, 0], zoom: 1 });
     const [content, setContent] = useState("");
 
@@ -142,8 +142,7 @@ const WorldMap = ({country_stats, getRowFromObject}) => {
                                             setContent("");
                                         }}
                                         onClick={() => {
-                                            //bind function to set clicked country for chart
-                                            console.log(geo.properties.NAME);
+                                            setClickedCountry(geo.properties.NAME);
                                         }}
                                         style={{
                                             hover: {
