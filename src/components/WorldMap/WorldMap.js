@@ -104,8 +104,8 @@ const WorldMap = ({country_stats, getRowFromObject, setClickedCountry}) => {
         let countryData = getRowFromObject(country_stats, 'country', countryName, countryNameLong);
         if(
             countryData.length > 0 &&
-            Object.keys(countryData[0].stats) &&
-            countryData[0].stats.length > 1
+            countryData[0].stats.length > 1 &&
+            countryData[0].country_total_stats
         ){
             setClickedCountry(countryData[0].country);
         }
