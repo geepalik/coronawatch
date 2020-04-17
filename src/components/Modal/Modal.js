@@ -9,7 +9,7 @@ const modal = props => ReactDOM.createPortal(
         </header>
         <div className="modal_content">{props.children}</div>
         <div className="modal_actions">
-            <div className="modal_close" onClick={props.onCloselModal}>Close popup</div>
+            <div className="modal_close" onClick={props.onCloselModal}>Close</div>
         </div>
     </div>,
     document.getElementById('modal-root')

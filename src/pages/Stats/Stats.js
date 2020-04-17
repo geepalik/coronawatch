@@ -6,6 +6,25 @@ import WorldChart from "../../components/Charts/WorldChart/WorldChart"
 import CountriesStatsPopup from "../../components/CountriesStatsPopup/CountriesStatsPopup";
 
 const apiUrl = "http://localhost:8080";
+const confirmedColor = 'red';
+const deathsColor = 'black';
+const recoveredColor = 'green';
+
+const chartOptions = {
+    responsive: true,
+    scales: {
+        xAxes: [{
+            afterTickToLabelConversion: function(data){
+                const xLabels = data.ticks;
+                xLabels.forEach(function (labels, i) {
+                    if (i % 2 === 1){
+                        xLabels[i] = '';
+                    }
+                });
+            }
+        }]
+    }
+};
 
 class Stats extends Component{
 
@@ -104,7 +123,12 @@ class Stats extends Component{
                     countryStats = {this.state.countryStats}
                     worldStats = {this.state.totalWorldStats}
                     getRowFromObject = {this.getRowFromObject}
+                    getChartData = {this.getChartData}
                     onCloseModal={this.closeCurrentModal}
+                    confirmedColor={confirmedColor}
+                    deathsColor={deathsColor}
+                    recoveredColor={recoveredColor}
+                    chartOptions={chartOptions}
                 />
                 {this.state.loadingData ? (
                     <Loader type="ThreeDots" color="#2BAD60" height={100} width={100} />
@@ -119,6 +143,10 @@ class Stats extends Component{
                 ) : <WorldChart
                     worldStats = {this.state.totalWorldStats}
                     getChartData = {this.getChartData}
+                    confirmedColor={confirmedColor}
+                    deathsColor={deathsColor}
+                    recoveredColor={recoveredColor}
+                    chartOptions={chartOptions}
                 />
                 }
             </Fragment>
