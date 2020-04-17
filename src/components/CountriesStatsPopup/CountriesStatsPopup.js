@@ -4,6 +4,11 @@ import Backdrop from "../Backdrop/Backdrop";
 
 class CountriesStatsPopup extends Component{
 
+    constructor(props) {
+        super(props);
+
+    }
+
     closeModal = () => {
         this.props.onCloseModal();
     };
@@ -11,7 +16,7 @@ class CountriesStatsPopup extends Component{
     render() {
         return (this.props.countriesSelected.length >= 1 && this.props.modalOpen) ?(
             <Fragment>
-                <Backdrop/>
+                <Backdrop onClick={this.closeModal}/>
                 <Modal
                     onCloselModal={this.closeModal}
                 >
