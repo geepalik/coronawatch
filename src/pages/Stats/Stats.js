@@ -21,6 +21,14 @@ const chartOptions = {
                         xLabels[i] = '';
                     }
                 });
+            },
+            gridLines: {
+                display: false
+            }
+        }],
+        yAxes: [{
+            gridLines: {
+                display: false
             }
         }]
     }
@@ -94,17 +102,25 @@ class Stats extends Component{
      * @param country
      */
     setSelectedCountries = (country) =>{
-        if(
-            this.state.countriesSelected.indexOf(country) === -1 &&
-            this.state.compareMode
-        ){
-            this.setState({
-                countriesSelected: [...this.state.countriesSelected, country]
-            });
+        if(this.state.compareMode){
+            if(this.state.countriesSelected.indexOf(country) === -1){
+                this.setState({
+                    countriesSelected: [...this.state.countriesSelected, country]
+                });
+            }
         }else{
-            this.setState({countriesSelected: [country]});
+            this.setState({
+                countriesSelected: [country],
+                isModalOpen: true
+            });
         }
-        this.setState({isModalOpen: true})
+    };
+
+    setCompareMode = () =>{
+        this.setState({
+            compareMode: !this.state.compareMode,
+            countriesSelected: []
+        })
     };
 
     closeCurrentModal = () => {
@@ -136,6 +152,8 @@ class Stats extends Component{
                     country_stats = {this.state.countryStats}
                     getRowFromObject = {this.getRowFromObject}
                     setClickedCountry = {this.setSelectedCountries}
+                    compareMode = {this.state.compareMode}
+                    setCompareMode = {this.setCompareMode}
                 />
                 }
                 {this.state.loadingData ? (
