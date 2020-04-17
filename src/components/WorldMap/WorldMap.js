@@ -89,7 +89,7 @@ const WorldMap = ({country_stats, getRowFromObject, setClickedCountry}) => {
             countryData[0].country_total_stats.hasOwnProperty('confirmed')
         ){
             const countryTotalStats = countryData[0].country_total_stats;
-            countryResults =  countryName+" <br>Confirmed: "+countryTotalStats.confirmed+"("+calculatePercentage(population,countryTotalStats.confirmed)+"% of population)<br>Deaths: "+countryTotalStats.deaths+"<br>Recovered: "+countryTotalStats.recovered;
+            countryResults =  countryName+" <br>Confirmed: "+countryTotalStats.confirmed+" ("+calculatePercentage(population,countryTotalStats.confirmed)+"% of population)<br>Deaths: "+countryTotalStats.deaths+"<br>Recovered: "+countryTotalStats.recovered;
         }
         return countryResults;
     }
@@ -107,15 +107,15 @@ const WorldMap = ({country_stats, getRowFromObject, setClickedCountry}) => {
     return (
         <div id="world_map_container">
             <ReactTooltip>{content}</ReactTooltip>
-            <div id="svgMapWrapper">
-                <div className="indicator">
-                    <div style={getGradientStyle()} className="indicator-gradient"></div>
-                    <span>1 - 100000+ Active Cases</span>
-                </div>
-                <ZoomInOutButtons
-                    handleZoomIn={handleZoomIn}
-                    handleZoomOut={handleZoomOut}
-                />
+            <div className="indicator">
+                <div style={getGradientStyle()} className="indicator-gradient"></div>
+                <span>1 - 100000+ Active Cases</span>
+            </div>
+            <ZoomInOutButtons
+                handleZoomIn={handleZoomIn}
+                handleZoomOut={handleZoomOut}
+            />
+            <div id="svg_map_wrapper">
                 <ComposableMap
                     projection="geoMercator"
                     data-tip=""
@@ -147,7 +147,8 @@ const WorldMap = ({country_stats, getRowFromObject, setClickedCountry}) => {
                                         style={{
                                             hover: {
                                                 fill: "#D6D6DA",
-                                                outline: "none"
+                                                outline: "none",
+                                                cursor: "pointer"
                                             },
                                             pressed: {
                                                 fill: "#E42",

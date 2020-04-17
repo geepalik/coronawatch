@@ -3,6 +3,7 @@ import axios from 'axios';
 import Loader from 'react-loader-spinner';
 import WorldMap from "../../components/WorldMap/WorldMap";
 import WorldChart from "../../components/Charts/WorldChart/WorldChart"
+import CountriesStatsPopup from "../../components/CountriesStatsPopup/CountriesStatsPopup";
 
 const apiUrl = "http://localhost:8080";
 
@@ -13,7 +14,8 @@ class Stats extends Component{
         totalWorldStats : {},
         countryStats : [],
         countriesSelected: [],
-        compareMode: false
+        compareMode: false,
+        isModalOpen: false
     };
 
     componentDidMount() {
@@ -81,13 +83,29 @@ class Stats extends Component{
                 countriesSelected: [...this.state.countriesSelected, country]
             });
         }else{
-            this.setState({countrySelected: [country]});
+            this.setState({countriesSelected: [country]});
         }
+        this.setState({isModalOpen: true})
+    };
+
+    closeCurrentModal = () => {
+        this.setState({
+            isModalOpen: false,
+            countriesSelected: []
+        })
     };
 
     render() {
         return (
             <Fragment>
+                <CountriesStatsPopup
+                    modalOpen={this.state.isModalOpen}
+                    countriesSelected={this.state.countriesSelected}
+                    countryStats = {this.state.countryStats}
+                    worldStats = {this.state.totalWorldStats}
+                    getRowFromObject = {this.getRowFromObject}
+                    onCloseModal={this.closeCurrentModal}
+                />
                 {this.state.loadingData ? (
                     <Loader type="ThreeDots" color="#2BAD60" height={100} width={100} />
                 ) : <WorldMap
