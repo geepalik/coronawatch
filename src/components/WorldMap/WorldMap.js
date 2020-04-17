@@ -95,6 +95,23 @@ const WorldMap = ({country_stats, getRowFromObject, setClickedCountry}) => {
     }
 
     /**
+     * check if country has valid timeline statistics
+     * only then show popup
+     * @param countryName
+     * @param countryNameLong
+     */
+    function checkIfCountryHasData(countryName, countryNameLong) {
+        let countryData = getRowFromObject(country_stats, 'country', countryName, countryNameLong);
+        if(
+            countryData.length > 0 &&
+            Object.keys(countryData[0].stats) &&
+            countryData[0].stats.length > 1
+        ){
+            setClickedCountry(countryData[0].country);
+        }
+    }
+
+    /**
      *
      * @param mainNumber
      * @param percentage
@@ -142,7 +159,7 @@ const WorldMap = ({country_stats, getRowFromObject, setClickedCountry}) => {
                                             setContent("");
                                         }}
                                         onClick={() => {
-                                            setClickedCountry(geo.properties.NAME);
+                                            checkIfCountryHasData(geo.properties.NAME, geo.properties.NAME_LONG);
                                         }}
                                         style={{
                                             hover: {
