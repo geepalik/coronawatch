@@ -3,7 +3,7 @@ import axios from 'axios';
 import Loader from 'react-loader-spinner';
 import WorldMap from "../../components/WorldMap/WorldMap";
 import WorldChart from "../../components/Charts/WorldChart/WorldChart"
-import CountriesStatsPopup from "../../components/CountriesStatsPopup/CountriesStatsPopup";
+import CountriesStatsPopup from "../../components/Charts/CountriesStatsPopup/CountriesStatsPopup";
 
 const apiUrl = "http://localhost:8080";
 const confirmedColor = 'red';
@@ -36,14 +36,17 @@ const chartOptions = {
 
 class Stats extends Component{
 
-    state = {
-        loadingData: true,
-        totalWorldStats : {},
-        countryStats : [],
-        countriesSelected: [],
-        compareMode: false,
-        isModalOpen: false
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            loadingData: true,
+            totalWorldStats : {},
+            countryStats : [],
+            countriesSelected: [],
+            compareMode: false,
+            isModalOpen: false
+        };
+    }
 
     componentDidMount() {
         try{
@@ -58,9 +61,11 @@ class Stats extends Component{
     getData = async () => {
         const response = await axios(apiUrl+'/coronawatch/stats');
         const data = response.data;
-        this.setState({loadingData: false});
-        this.setState({totalWorldStats: data.world_stats[0]});
-        this.setState({countryStats: data.country_stats});
+        this.setState({
+            loadingData: false,
+            totalWorldStats: data.world_stats[0],
+            countryStats: data.country_stats
+        });
     };
 
     /**
@@ -130,6 +135,17 @@ class Stats extends Component{
         })
     };
 
+    showCompareResults = () => {
+        if(
+            this.state.countriesSelected.length > 1 &&
+            this.state.compareMode
+        ){
+            this.setState({
+                isModalOpen: true
+            });
+        }
+    }
+
     render() {
         return (
             <Fragment>
@@ -151,9 +167,11 @@ class Stats extends Component{
                 ) : <WorldMap
                     country_stats = {this.state.countryStats}
                     getRowFromObject = {this.getRowFromObject}
+                    selectedCountries = {this.state.countriesSelected}
                     setClickedCountry = {this.setSelectedCountries}
                     compareMode = {this.state.compareMode}
                     setCompareMode = {this.setCompareMode}
+                    showCompareResults = {this.showCompareResults}
                 />
                 }
                 {this.state.loadingData ? (

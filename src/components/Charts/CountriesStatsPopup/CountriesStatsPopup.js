@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from "react";
 import {Line} from "react-chartjs-2";
-import Modal from "../Modal/Modal";
-import Backdrop from "../Backdrop/Backdrop";
+import Modal from "../../Modal/Modal";
+import Backdrop from "../../Backdrop/Backdrop";
 
 class CountriesStatsPopup extends Component{
 
@@ -70,7 +70,7 @@ class CountriesStatsPopup extends Component{
             <Fragment>
                 <Backdrop onClick={this.closeModal}/>
                 <Modal
-                    onCloselModal={this.closeModal}
+                    onCloseModal={this.closeModal}
                 >
                     {this.state.chartData.datasets.length > 0 ? (
                         <Line

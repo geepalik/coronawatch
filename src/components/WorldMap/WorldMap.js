@@ -13,7 +13,7 @@ const color5 = '#4d0000';
 const geoUrl =
     "https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json";
 
-const WorldMap = ({country_stats, getRowFromObject, setClickedCountry, compareMode, setCompareMode}) => {
+const WorldMap = ({country_stats, getRowFromObject, selectedCountries, setClickedCountry, compareMode, setCompareMode, showCompareResults}) => {
     const [position, setPosition] = useState({ coordinates: [0, 0], zoom: 1 });
     const [content, setContent] = useState("");
 
@@ -132,11 +132,20 @@ const WorldMap = ({country_stats, getRowFromObject, setClickedCountry, compareMo
                 handleZoomIn={handleZoomIn}
                 handleZoomOut={handleZoomOut}
             />
-            <p>
+            <div>
                 <input type="checkbox"
                        onChange={setCompareMode} /> {' '}
                 Compare countries
-            </p>
+            </div>
+            <div>
+                {selectedCountries.length > 1 && compareMode ? (
+                    <button
+                        onClick={showCompareResults}
+                    >
+                        Show compare results
+                    </button>
+                ) : null}
+            </div>
             <div id="svg_map_wrapper">
                 <ComposableMap
                     projection="geoMercator"
