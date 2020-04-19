@@ -1,0 +1,13 @@
+.multi-charts-wrapper{
+    display: flex;
+}
+.chart-container{
+    width: 30%;
+}
+
+@media (max-width: 767px) {
+    .multi-charts-wrapper{
+        flex-direction: column-reverse;
+    }
+    .chart-container{width: auto;}
+}
