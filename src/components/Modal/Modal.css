@@ -1,4 +1,4 @@
-.modal {
+.modal, .modal_multi {
     position: fixed;
     width: 90%;
     left: 5%;

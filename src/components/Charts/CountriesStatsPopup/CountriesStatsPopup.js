@@ -10,6 +10,7 @@ class CountriesStatsPopup extends Component{
     constructor(props) {
         super(props);
         this.state = {
+            modalClassName : 'modal',
             singleChartData : {datasets: []},
             multipleChartsData : {
                 'Confirmed' : {
@@ -44,12 +45,18 @@ class CountriesStatsPopup extends Component{
                 prevProps.countriesSelected !== this.props.countriesSelected
             ){
                 const countryName = this.props.countriesSelected[0];
-                this.setState({singleChartData: this.prepareSingleChart(countryName)})
+                this.setState({
+                    singleChartData: this.prepareSingleChart(countryName),
+                    modalClassName: 'modal'
+                })
             }else if(
                 this.props.countriesSelected.length > 1 &&
                 this.state.multipleChartsData.Confirmed.datasets.length === 0
             ){
-                this.setState({multipleChartsData: this.prepareMultipleCharts(this.props.countriesSelected)})
+                this.setState({
+                    multipleChartsData: this.prepareMultipleCharts(this.props.countriesSelected),
+                    modalClassName: 'modal_multi'
+                })
             }
         }
     }
@@ -152,6 +159,7 @@ class CountriesStatsPopup extends Component{
     closeModal = () => {
         this.props.onCloseModal();
         this.setState({
+            modalClassName: 'modal',
             chartData: {datasets: []},
             multipleChartsData : {
                 'Confirmed' : {
@@ -176,6 +184,7 @@ class CountriesStatsPopup extends Component{
                 <Backdrop onClick={this.closeModal}/>
                 <Modal
                     onCloseModal={this.closeModal}
+                    modalClassName={this.state.modalClassName}
                 >
                     {this.props.countriesSelected.length === 1 ? (
                         <Line
