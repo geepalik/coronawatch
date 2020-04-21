@@ -108,7 +108,15 @@ class Stats extends Component{
      */
     setSelectedCountries = (country) =>{
         if(this.state.compareMode){
-            if(this.state.countriesSelected.indexOf(country) === -1){
+            //if a country is clicked again, remove from array
+            if(this.state.countriesSelected.indexOf(country) > -1){
+                const countriesSelectedCopy = [...this.state.countriesSelected];
+                countriesSelectedCopy.splice(countriesSelectedCopy.indexOf(country),1);
+                this.setState({
+                    countriesSelected: countriesSelectedCopy
+                })
+            }else{
+                //else add to array of selected countries
                 this.setState({
                     countriesSelected: [...this.state.countriesSelected, country]
                 });
@@ -125,14 +133,11 @@ class Stats extends Component{
         this.setState({
             compareMode: !this.state.compareMode,
             countriesSelected: []
-        })
+        });
     };
 
     closeCurrentModal = () => {
-        this.setState({
-            isModalOpen: false,
-            countriesSelected: []
-        })
+        this.setState({isModalOpen: false});
     };
 
     showCompareResults = () => {
@@ -169,6 +174,7 @@ class Stats extends Component{
                     getRowFromObject = {this.getRowFromObject}
                     selectedCountries = {this.state.countriesSelected}
                     setClickedCountry = {this.setSelectedCountries}
+                    modalOpen={this.state.isModalOpen}
                     compareMode = {this.state.compareMode}
                     setCompareMode = {this.setCompareMode}
                     showCompareResults = {this.showCompareResults}

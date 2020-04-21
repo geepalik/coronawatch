@@ -1,4 +1,4 @@
-import React,{Component, memo, useState} from "react";
+import React,{memo, useState} from "react";
 import './WorldMap.css';
 import {ComposableMap, Geographies, Geography, ZoomableGroup} from "react-simple-maps";
 import ReactTooltip from 'react-tooltip';
@@ -13,7 +13,7 @@ const color5 = '#4d0000';
 const geoUrl =
     "https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json";
 
-const WorldMap = ({country_stats, getRowFromObject, selectedCountries, setClickedCountry, compareMode, setCompareMode, showCompareResults}) => {
+const WorldMap = ({country_stats, getRowFromObject, selectedCountries, setClickedCountry, modalOpen, compareMode, setCompareMode, showCompareResults}) => {
     const [position, setPosition] = useState({ coordinates: [0, 0], zoom: 1 });
     const [content, setContent] = useState("");
 
@@ -101,14 +101,17 @@ const WorldMap = ({country_stats, getRowFromObject, selectedCountries, setClicke
      * @param countryNameLong
      */
     function checkIfCountryHasData(countryName, countryNameLong) {
-        let countryData = getRowFromObject(country_stats, 'country', countryName, countryNameLong);
+        const countryData = getRowFromObject(country_stats, 'country', countryName, countryNameLong);
+        let apiCountryName = "";
         if(
             countryData.length > 0 &&
             countryData[0].stats.length > 1 &&
             countryData[0].country_total_stats
         ){
             setClickedCountry(countryData[0].country);
+            apiCountryName = countryData[0].country;
         }
+        return apiCountryName;
     }
 
     /**
@@ -119,6 +122,44 @@ const WorldMap = ({country_stats, getRowFromObject, selectedCountries, setClicke
      */
     function calculatePercentage(mainNumber, percentage) {
         return Number((percentage / mainNumber)*100).toFixed(2);
+    }
+
+    /**
+     * when toggling checkbox to compare countries
+     * clear countries that are selected already
+     */
+    function clearSelectedCountriesForCompare() {
+        const selectedCountries = document.querySelectorAll("#svg_map_wrapper>svg g.rsm-geographies>path[compare]");
+        Object.entries(selectedCountries).map((object) => {
+            object[1].style.fill = object[1].getAttribute('statcolor');
+            object[1].removeAttribute('compare');
+        });
+        setCompareMode();
+    }
+
+    /**
+     * check if compare mode and if function returns nonempty string
+     * that means its a country with valid data
+     * if exists in array of comparedCountries already
+     * set the color to original fill depending on cases
+     *
+     * @param clickedCountry
+     * @param countryName
+     * @param countryLongName
+     */
+    function clickCountryOperations(clickedCountry, countryName, countryLongName) {
+        const apiCountryName = checkIfCountryHasData(countryName, countryLongName);
+        if(compareMode && apiCountryName.length > 0){
+            if(selectedCountries.indexOf(apiCountryName) > -1){
+                //clear indication of comparing
+                clickedCountry.target.style.fill = clickedCountry.target.getAttribute('statcolor');
+                clickedCountry.target.removeAttribute("compare");
+            }else{
+                //set indication for comparing
+                clickedCountry.target.style.fill = "#0400FF";
+                clickedCountry.target.setAttribute("compare","true");
+            }
+        }
     }
 
     return (
@@ -134,7 +175,7 @@ const WorldMap = ({country_stats, getRowFromObject, selectedCountries, setClicke
             />
             <div>
                 <input type="checkbox"
-                       onChange={setCompareMode} /> {' '}
+                       onChange={clearSelectedCountriesForCompare} /> {' '}
                 Compare countries
             </div>
             <div>
@@ -164,27 +205,23 @@ const WorldMap = ({country_stats, getRowFromObject, selectedCountries, setClicke
                                     <Geography
                                         key={geo.rsmKey}
                                         geography={geo}
+                                        statcolor={fillCountryColor(geo.properties.NAME, geo.properties.NAME_LONG)}
                                         fill={fillCountryColor(geo.properties.NAME, geo.properties.NAME_LONG)}
-                                        onMouseEnter={() => {
+                                        onMouseEnter={(event) => {
+                                            if(!compareMode){
+                                                event.target.style.fill = "#D6D6DA";
+                                            }
                                             const { NAME, NAME_LONG, POP_EST } = geo.properties;
                                             setContent(getTooltipData(NAME, NAME_LONG, POP_EST))
                                         }}
-                                        onMouseLeave={() => {
+                                        onMouseLeave={(event) => {
+                                            if(!compareMode){
+                                                event.target.style.fill = event.target.getAttribute('statcolor');
+                                            }
                                             setContent("");
                                         }}
-                                        onClick={() => {
-                                            checkIfCountryHasData(geo.properties.NAME, geo.properties.NAME_LONG);
-                                        }}
-                                        style={{
-                                            hover: {
-                                                fill: "#D6D6DA",
-                                                outline: "none",
-                                                cursor: "pointer"
-                                            },
-                                            pressed: {
-                                                fill: "#0400FF",
-                                                outline: "none"
-                                            }
+                                        onClick={(event) => {
+                                            clickCountryOperations(event, geo.properties.NAME, geo.properties.NAME_LONG);
                                         }}
                                     />)
                             }
