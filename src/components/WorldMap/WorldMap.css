@@ -1,8 +1,5 @@
 #svg_map_wrapper{border: 1px solid;}
-#world_map_container{
-    width: 55%;
-    float: left;
-}
+#world_map_container{}
 
 #tooltip {
     display: none;

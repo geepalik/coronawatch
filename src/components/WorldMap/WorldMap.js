@@ -10,6 +10,9 @@ const color3 = '#ff1a1a';
 const color4 = '#b30000';
 const color5 = '#4d0000';
 
+//TODO
+//when loading component check if URL returns content
+//else show message
 const geoUrl =
     "https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json";
 

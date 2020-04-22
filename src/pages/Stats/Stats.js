@@ -4,6 +4,8 @@ import Loader from 'react-loader-spinner';
 import WorldMap from "../../components/WorldMap/WorldMap";
 import WorldChart from "../../components/Charts/WorldChart/WorldChart"
 import CountriesStatsPopup from "../../components/Charts/CountriesStatsPopup/CountriesStatsPopup";
+import CountriesList from "../../components/CountriesList/CountriesList";
+import './Stats.css';
 
 const apiUrl = "http://localhost:8080";
 const confirmedColor = 'red';
@@ -44,19 +46,29 @@ class Stats extends Component{
             countryStats : [],
             countriesSelected: [],
             compareMode: false,
-            isModalOpen: false
+            isModalOpen: false,
+            width: window.innerWidth
         };
     }
 
     componentDidMount() {
         try{
             this.getData().catch(err => {throw new Error('Failed to get data');});
+            window.addEventListener('resize', this.handleWindowSizeChange)
         }catch (e) {
             //dialog box cant get fresh data
             //get from local storage
             throw new Error('Failed to get data');
         }
     }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.handleWindowSizeChange)
+    }
+
+    handleWindowSizeChange = () => {
+        this.setState({width: window.innerWidth})
+    };
 
     getData = async () => {
         const response = await axios(apiUrl+'/coronawatch/stats');
@@ -152,6 +164,22 @@ class Stats extends Component{
     }
 
     render() {
+        //hide map in small screens
+        const {width} = this.state;
+        const countriesContent = (width <= 800) ?
+            <CountriesList /> :
+            <WorldMap
+                country_stats = {this.state.countryStats}
+                getRowFromObject = {this.getRowFromObject}
+                selectedCountries = {this.state.countriesSelected}
+                setClickedCountry = {this.setSelectedCountries}
+                modalOpen={this.state.isModalOpen}
+                compareMode = {this.state.compareMode}
+                setCompareMode = {this.setCompareMode}
+                showCompareResults = {this.showCompareResults}
+            />
+        ;
+
         return (
             <Fragment>
                 <CountriesStatsPopup
@@ -169,27 +197,22 @@ class Stats extends Component{
                 />
                 {this.state.loadingData ? (
                     <Loader type="ThreeDots" color="#2BAD60" height={100} width={100} />
-                ) : <WorldMap
-                    country_stats = {this.state.countryStats}
-                    getRowFromObject = {this.getRowFromObject}
-                    selectedCountries = {this.state.countriesSelected}
-                    setClickedCountry = {this.setSelectedCountries}
-                    modalOpen={this.state.isModalOpen}
-                    compareMode = {this.state.compareMode}
-                    setCompareMode = {this.setCompareMode}
-                    showCompareResults = {this.showCompareResults}
-                />
-                }
-                {this.state.loadingData ? (
-                    <Loader type="ThreeDots" color="#2BAD60" height={100} width={100} />
-                ) : <WorldChart
-                    worldStats = {this.state.totalWorldStats}
-                    getChartData = {this.getChartData}
-                    confirmedColor={confirmedColor}
-                    deathsColor={deathsColor}
-                    recoveredColor={recoveredColor}
-                    chartOptions={chartOptions}
-                />
+                ) :
+                    <div className="stats-container">
+                        <div className="stats-child">
+                            {countriesContent}
+                        </div>
+                        <div className="stats-child">
+                            <WorldChart
+                                worldStats = {this.state.totalWorldStats}
+                                getChartData = {this.getChartData}
+                                confirmedColor={confirmedColor}
+                                deathsColor={deathsColor}
+                                recoveredColor={recoveredColor}
+                                chartOptions={chartOptions}
+                            />
+                        </div>
+                    </div>
                 }
             </Fragment>
         )
