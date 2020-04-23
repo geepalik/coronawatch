@@ -6,3 +6,9 @@
 .stats-child{
     width: 50%;
 }
+
+@media (max-width: 800px) {
+    .stats-child{
+        width: 100%;
+    }
+}
