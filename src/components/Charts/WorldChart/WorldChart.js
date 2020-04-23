@@ -35,7 +35,7 @@ const WorldChart = (props) => {
 
     return (
         <div id="world_chart_container">
-            <h2>Worldwide statistics</h2>
+            <h2>Worldwide Statistics</h2>
             <Line
                 data={prepareChartData()}
                 options={props.chartOptions}

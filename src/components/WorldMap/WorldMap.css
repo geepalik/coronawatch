@@ -1,4 +1,4 @@
-#svg_map_wrapper{border: 1px solid;}
+#svg_map_wrapper{}
 #world_map_container{}
 
 #tooltip {
@@ -19,6 +19,7 @@
     width: 100%;
     display: inline-block;
     margin-bottom: 5px;
+    text-align: right;
 }
 
 .indicator>* {

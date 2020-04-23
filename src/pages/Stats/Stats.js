@@ -169,6 +169,19 @@ class Stats extends Component{
         }
     }
 
+    /**
+     * when toggling checkbox to compare countries
+     * clear countries that are selected already
+     */
+     clearSelectedCountriesForCompare = (comparedCountryElement) => {
+        const selectedCountries = document.querySelectorAll(comparedCountryElement);
+        Object.entries(selectedCountries).map((object) => {
+            object[1].style.fill = object[1].getAttribute('statcolor');
+            object[1].removeAttribute('compare');
+        });
+         this.setCompareMode();
+    }
+
     render() {
         //hide map in small screens
         const {width} = this.state;
@@ -181,7 +194,7 @@ class Stats extends Component{
                 setClickedCountry = {this.setSelectedCountries}
                 modalOpen={this.state.isModalOpen}
                 compareMode = {this.state.compareMode}
-                setCompareMode = {this.setCompareMode}
+                clearSelectedCountriesForCompare = {this.clearSelectedCountriesForCompare}
                 showCompareResults = {this.showCompareResults}
             />
         ;

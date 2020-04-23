@@ -3,6 +3,7 @@ import './WorldMap.css';
 import {ComposableMap, Geographies, Geography, ZoomableGroup} from "react-simple-maps";
 import ReactTooltip from 'react-tooltip';
 import ZoomInOutButtons from "../ZoomInOutButtons/ZoomInOutButtons";
+import CompareCountriesControls from "../CompareCountriesControls/CompareCountriesControls";
 
 const color1 = '#ffe5e5';
 const color2 = '#ff8080';
@@ -10,13 +11,15 @@ const color3 = '#ff1a1a';
 const color4 = '#b30000';
 const color5 = '#4d0000';
 
+const comparedCountryElement = "#svg_map_wrapper>svg g.rsm-geographies>path[compare]";
+
 //TODO
 //when loading component check if URL returns content
 //else show message
 const geoUrl =
     "https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json";
 
-const WorldMap = ({country_stats, getRowFromObject, selectedCountries, setClickedCountry, modalOpen, compareMode, setCompareMode, showCompareResults}) => {
+const WorldMap = ({country_stats, getRowFromObject, selectedCountries, setClickedCountry, modalOpen, compareMode, clearSelectedCountriesForCompare, showCompareResults}) => {
     const [position, setPosition] = useState({ coordinates: [0, 0], zoom: 1 });
     const [content, setContent] = useState("");
 
@@ -127,18 +130,7 @@ const WorldMap = ({country_stats, getRowFromObject, selectedCountries, setClicke
         return Number((percentage / mainNumber)*100).toFixed(2);
     }
 
-    /**
-     * when toggling checkbox to compare countries
-     * clear countries that are selected already
-     */
-    function clearSelectedCountriesForCompare() {
-        const selectedCountries = document.querySelectorAll("#svg_map_wrapper>svg g.rsm-geographies>path[compare]");
-        Object.entries(selectedCountries).map((object) => {
-            object[1].style.fill = object[1].getAttribute('statcolor');
-            object[1].removeAttribute('compare');
-        });
-        setCompareMode();
-    }
+
 
     /**
      * check if compare mode and if function returns nonempty string
@@ -165,31 +157,23 @@ const WorldMap = ({country_stats, getRowFromObject, selectedCountries, setClicke
         }
     }
 
+    function clearSelected() {
+        clearSelectedCountriesForCompare(comparedCountryElement)
+    }
+
     return (
         <div id="world_map_container">
             <ReactTooltip>{content}</ReactTooltip>
-            <div className="indicator">
-                <div style={getGradientStyle()} className="indicator-gradient"></div>
-                <span>1 - 100000+ Active Cases</span>
-            </div>
+            <CompareCountriesControls
+                clearSelected = {clearSelected}
+                selectedCountries = {selectedCountries}
+                compareMode = {compareMode}
+                showCompareResults = {showCompareResults}
+            />
             <ZoomInOutButtons
                 handleZoomIn={handleZoomIn}
                 handleZoomOut={handleZoomOut}
             />
-            <div>
-                <input type="checkbox"
-                       onChange={clearSelectedCountriesForCompare} /> {' '}
-                Compare countries
-            </div>
-            <div>
-                {selectedCountries.length > 1 && compareMode ? (
-                    <button
-                        onClick={showCompareResults}
-                    >
-                        Show compare results
-                    </button>
-                ) : null}
-            </div>
             <div id="svg_map_wrapper">
                 <ComposableMap
                     projection="geoMercator"
@@ -231,6 +215,10 @@ const WorldMap = ({country_stats, getRowFromObject, selectedCountries, setClicke
                         </Geographies>
                     </ZoomableGroup>
                 </ComposableMap>
+            </div>
+            <div className="indicator">
+                <div style={getGradientStyle()} className="indicator-gradient"></div>
+                <span>1 - 100K+ Confirmed COVID-19 Cases</span>
             </div>
         </div>
     );
