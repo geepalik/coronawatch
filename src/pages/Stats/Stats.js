@@ -16,19 +16,25 @@ const chartOptions = {
     responsive: true,
     scales: {
         xAxes: [{
-            afterTickToLabelConversion: function(data){
-                const xLabels = data.ticks;
-                xLabels.forEach(function (labels, i) {
-                    if (i % 2 === 1){
-                        xLabels[i] = '';
-                    }
-                });
+            ticks: {
+                maxTicksLimit: 10
             },
             gridLines: {
                 display: false
             }
         }],
         yAxes: [{
+            ticks: {
+              callback: function (label) {
+                  let labelString = label;
+                  if(label > 999 && label <= 999999){
+                      labelString = label/1000+'K';
+                  }else if(label >= 1000000){
+                      labelString = label/1000000+'M';
+                  }
+                  return labelString;
+              }
+            },
             gridLines: {
                 display: false
             }
