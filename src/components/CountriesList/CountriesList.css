@@ -1,0 +1,15 @@
+.countries-list-container{
+    margin: 0 auto;
+    height: 300px;
+    width: 300px;
+    overflow: auto;
+    list-style: none;
+}
+
+.country-row{
+    margin: 30px 0;
+}
+
+.selected-country {
+    border: 1px solid blue;
+}

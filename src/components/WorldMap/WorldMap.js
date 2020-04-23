@@ -19,7 +19,7 @@ const comparedCountryElement = "#svg_map_wrapper>svg g.rsm-geographies>path[comp
 const geoUrl =
     "https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json";
 
-const WorldMap = ({country_stats, getRowFromObject, selectedCountries, setClickedCountry, modalOpen, compareMode, clearSelectedCountriesForCompare, showCompareResults}) => {
+const WorldMap = ({countryStats, getRowFromObject, selectedCountries, setClickedCountry, compareMode, clearSelectedCountriesForCompare, showCompareResults}) => {
     const [position, setPosition] = useState({ coordinates: [0, 0], zoom: 1 });
     const [content, setContent] = useState("");
 
@@ -65,7 +65,7 @@ const WorldMap = ({country_stats, getRowFromObject, selectedCountries, setClicke
     //and add to country data to be shown when hovering
     //instead of calculating when hovering and loading
     function fillCountryColor(countryName, countryNameLong) {
-        let countryData = getRowFromObject(country_stats, 'country', countryName, countryNameLong);
+        let countryData = getRowFromObject(countryStats, 'country', countryName, countryNameLong);
         if(countryData.length === 0){
             //console.log("couldnt fill color for country "+countryName);
             //log or show if we dont have data for this country
@@ -87,7 +87,7 @@ const WorldMap = ({country_stats, getRowFromObject, selectedCountries, setClicke
      * @returns {string}
      */
     function getTooltipData(countryName, countryNameLong, population) {
-        let countryData = getRowFromObject(country_stats, 'country', countryName, countryNameLong);
+        let countryData = getRowFromObject(countryStats, 'country', countryName, countryNameLong);
         let countryResults = "No data for "+countryName;
         if(
             countryData.length > 0 &&
@@ -107,7 +107,7 @@ const WorldMap = ({country_stats, getRowFromObject, selectedCountries, setClicke
      * @param countryNameLong
      */
     function checkIfCountryHasData(countryName, countryNameLong) {
-        const countryData = getRowFromObject(country_stats, 'country', countryName, countryNameLong);
+        const countryData = getRowFromObject(countryStats, 'country', countryName, countryNameLong);
         let apiCountryName = "";
         if(
             countryData.length > 0 &&

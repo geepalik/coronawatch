@@ -173,10 +173,14 @@ class Stats extends Component{
      * when toggling checkbox to compare countries
      * clear countries that are selected already
      */
-     clearSelectedCountriesForCompare = (comparedCountryElement) => {
+     clearSelectedCountriesForCompare = (comparedCountryElement, list = false) => {
         const selectedCountries = document.querySelectorAll(comparedCountryElement);
-        Object.entries(selectedCountries).map((object) => {
-            object[1].style.fill = object[1].getAttribute('statcolor');
+        Object.entries(selectedCountries).forEach((object) => {
+            if(!list){
+                object[1].style.fill = object[1].getAttribute('statcolor');
+            }else{
+                object[1].classList.remove('selected-country');
+            }
             object[1].removeAttribute('compare');
         });
          this.setCompareMode();
@@ -186,13 +190,19 @@ class Stats extends Component{
         //hide map in small screens
         const {width} = this.state;
         const countriesContent = (width <= 800) ?
-            <CountriesList /> :
+            <CountriesList
+                countryStats = {this.state.countryStats}
+                setClickedCountry = {this.setSelectedCountries}
+                selectedCountries = {this.state.countriesSelected}
+                compareMode = {this.state.compareMode}
+                clearSelectedCountriesForCompare = {this.clearSelectedCountriesForCompare}
+                showCompareResults = {this.showCompareResults}
+            /> :
             <WorldMap
-                country_stats = {this.state.countryStats}
+                countryStats = {this.state.countryStats}
                 getRowFromObject = {this.getRowFromObject}
                 selectedCountries = {this.state.countriesSelected}
                 setClickedCountry = {this.setSelectedCountries}
-                modalOpen={this.state.isModalOpen}
                 compareMode = {this.state.compareMode}
                 clearSelectedCountriesForCompare = {this.clearSelectedCountriesForCompare}
                 showCompareResults = {this.showCompareResults}

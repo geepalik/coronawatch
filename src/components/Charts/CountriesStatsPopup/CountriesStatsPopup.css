@@ -7,7 +7,7 @@
 
 @media (max-width: 767px) {
     .multi-charts-wrapper{
-        flex-direction: column-reverse;
+        flex-direction: column;
     }
     .chart-container{width: auto;}
 }

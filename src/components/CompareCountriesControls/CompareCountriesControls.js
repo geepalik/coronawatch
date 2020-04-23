@@ -1,12 +1,21 @@
 import React from "react";
 
 const CompareCountriesControls = (props) => {
+
+    /**
+     *
+     * @returns {string}
+     */
+    function getCheckBoxText() {
+        return (!props.compareMode) ? "Compare Statistics Between Countries" : "Clear Selected Countries"
+    }
+
     return (
         <div className="compare-controls-container">
             <div>
                 <input type="checkbox"
                        onChange={props.clearSelected} /> {' '}
-                Compare countries
+                {getCheckBoxText()}
             </div>
             <div>
                 {props.selectedCountries.length > 1 && props.compareMode ? (
