@@ -190,7 +190,7 @@ class Stats extends Component{
     render() {
         //hide map in small screens
         const {width} = this.state;
-        const countriesContent = (width <= 800) ?
+        const countriesContent = (width <= 850) ?
             <CountriesList
                 countryStats = {this.state.countryStats}
                 setClickedCountry = {this.setSelectedCountries}

@@ -1,0 +1,8 @@
+a[href^="mailto:"] {
+    text-decoration: none;
+    color: #3f51b5;
+    cursor: pointer;
+}
+a[href^="mailto:"]:hover {
+    text-decoration: underline;
+}

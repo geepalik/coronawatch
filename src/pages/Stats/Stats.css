@@ -7,7 +7,7 @@
     width: 50%;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 850px) {
     .stats-child{
         width: 80%;
     }

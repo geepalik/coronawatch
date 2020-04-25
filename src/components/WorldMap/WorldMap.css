@@ -1,5 +1,5 @@
 #svg_map_wrapper{}
-#world_map_container{}
+#world_map_container{padding: 50px 0;}
 
 #tooltip {
     display: none;

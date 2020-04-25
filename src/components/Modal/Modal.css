@@ -9,10 +9,6 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
 }
 
-.modal_header {
-    border-bottom: 2px solid #3b0062;
-}
-
 .modal_header h1 {
     font-size: 1.5rem;
     color: #3b0062;
@@ -32,7 +28,10 @@
     margin: 0 0.5rem;
 }
 
-.modal_close{cursor: pointer}
+.modal_close{
+    cursor: pointer;
+    float: right;
+}
 
 @media (min-width: 768px) {
     .modal {
@@ -41,8 +40,8 @@
     }
 }
 
-@media (max-width: 800px) {
-    .modal_multi{
+@media (max-width: 850px) {
+    .modal, .modal_multi{
         top: 0;
     }
 }
