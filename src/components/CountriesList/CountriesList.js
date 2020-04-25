@@ -51,15 +51,15 @@ const CountriesList = (props) => {
                                         primary={countryData.country}
                                         secondary={
                                             <Fragment>
-                                                <div style={{color:props.confirmedColor}}>
+                                                <span style={{color:props.confirmedColor}}>
                                                     Confirmed: {countryData['country_total_stats']['confirmed']}
-                                                </div>
-                                                <div style={{color:props.deathsColor}}>
+                                                </span>
+                                                <span className="country-indication" style={{color:props.deathsColor}}>
                                                     Deaths: {countryData['country_total_stats']['deaths']}
-                                                </div>
-                                                <div style={{color:props.recoveredColor}}>
+                                                </span>
+                                                <span className="country-indication" style={{color:props.recoveredColor}}>
                                                     Recovered: {countryData['country_total_stats']['recovered']}
-                                                </div>
+                                                </span>
                                             </Fragment>
                                         }/>
                                 </ListItem>

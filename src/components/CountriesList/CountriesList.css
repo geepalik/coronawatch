@@ -12,3 +12,7 @@
 .selected-country {
     border: 1px solid blue;
 }
+
+.country-indication {
+    margin: 0 10px;
+}
