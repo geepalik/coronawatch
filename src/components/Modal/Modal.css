@@ -40,3 +40,9 @@
         left: calc((100% - 40rem) / 2);
     }
 }
+
+@media (max-width: 800px) {
+    .modal_multi{
+        top: 0;
+    }
+}

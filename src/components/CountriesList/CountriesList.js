@@ -1,21 +1,24 @@
 import React, {Fragment} from "react";
 import CompareCountriesControls from "../CompareCountriesControls/CompareCountriesControls";
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 import './CountriesList.css'
 
 const comparedCountryElement = ".countries-list-container li[compare]";
 
 const CountriesList = (props) => {
 
-    function setClickedCountry(e) {
-        const countryName = e.target.dataset.id;
+    function setClickedCountry(e, countryName) {
+        //const countryName = e.target.dataset.id;
         props.setClickedCountry(countryName);
         if(props.compareMode){
             if(props.selectedCountries.indexOf(countryName) > -1){
-                e.target.classList.remove('selected-country');
-                e.target.removeAttribute('compare');
+                e.target.closest('.country-row').classList.remove('selected-country');
+                e.target.closest('.country-row').removeAttribute('compare');
             }else{
-                e.target.classList.add('selected-country');
-                e.target.setAttribute('compare','true');
+                e.target.closest('.country-row').classList.add('selected-country');
+                e.target.closest('.country-row').setAttribute('compare','true');
             }
         }
     }
@@ -32,25 +35,39 @@ const CountriesList = (props) => {
                 compareMode = {props.compareMode}
                 showCompareResults = {props.showCompareResults}
             />
-            <ul className="countries-list-container">
-                {props.countryStats.map((countryData, i) => {
-                    if(countryData.country_total_stats && countryData.country_total_stats.hasOwnProperty('confirmed')){
-                        return (
-                            <li
-                                className="country-row"
-                                key={i}
-                                data-id={countryData.country}
-                                onClick={setClickedCountry}
-                            >
-                                <span>{countryData.country}</span>
-                                <span style={{color:props.confirmedColor}}>Confirmed: {countryData['country_total_stats']['confirmed']}</span>
-                                <span>Deaths: {countryData['country_total_stats']['deaths']}</span>
-                                <span>Recovered: {countryData['country_total_stats']['recovered']}</span>
-                            </li>
-                        );
-                    }
-                })}
-            </ul>
+
+            <div className="countries-list-container">
+                <List component="nav">
+                    {props.countryStats.map((countryData, i) => {
+                        if(countryData.country_total_stats && countryData.country_total_stats.hasOwnProperty('confirmed')){
+                            return (
+                                <ListItem
+                                    key={i}
+                                    className="country-row"
+                                    data-id={countryData.country}
+                                    onClick={(event) => setClickedCountry(event, countryData.country)}
+                                >
+                                    <ListItemText
+                                        primary={countryData.country}
+                                        secondary={
+                                            <Fragment>
+                                                <div style={{color:props.confirmedColor}}>
+                                                    Confirmed: {countryData['country_total_stats']['confirmed']}
+                                                </div>
+                                                <div style={{color:props.deathsColor}}>
+                                                    Deaths: {countryData['country_total_stats']['deaths']}
+                                                </div>
+                                                <div style={{color:props.recoveredColor}}>
+                                                    Recovered: {countryData['country_total_stats']['recovered']}
+                                                </div>
+                                            </Fragment>
+                                        }/>
+                                </ListItem>
+                            );
+                        }
+                    })}
+                </List>
+            </div>
         </Fragment>
     );
 }
