@@ -1,4 +1,4 @@
-import React from "react";
+import React,{Fragment} from "react";
 import {Line} from "react-chartjs-2";
 import './WorldChart.css';
 
@@ -34,13 +34,15 @@ const WorldChart = (props) => {
     }
 
     return (
-        <div id="world_chart_container">
+        <Fragment>
             <h2>Worldwide Statistics</h2>
-            <Line
-                data={prepareChartData()}
-                options={props.chartOptions}
-            />
-        </div>
+            <div id="world_chart_container">
+                <Line
+                    data={prepareChartData()}
+                    options={props.chartOptions}
+                />
+            </div>
+        </Fragment>
     );
 };
 

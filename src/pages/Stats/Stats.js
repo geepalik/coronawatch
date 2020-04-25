@@ -13,7 +13,6 @@ const deathsColor = 'black';
 const recoveredColor = 'green';
 
 const chartOptions = {
-    responsive: true,
     scales: {
         xAxes: [{
             ticks: {
@@ -121,7 +120,7 @@ class Stats extends Component{
     };
 
     /**
-     * set clicked countries from map
+     * set clicked countries from map or list
      * @param country
      */
     setSelectedCountries = (country) =>{
@@ -172,8 +171,10 @@ class Stats extends Component{
     /**
      * when toggling checkbox to compare countries
      * clear countries that are selected already
+     * @param comparedCountryElement
+     * @param list
      */
-     clearSelectedCountriesForCompare = (comparedCountryElement, list = false) => {
+    clearSelectedCountriesForCompare = (comparedCountryElement, list = false) => {
         const selectedCountries = document.querySelectorAll(comparedCountryElement);
         Object.entries(selectedCountries).forEach((object) => {
             if(!list){
@@ -197,6 +198,9 @@ class Stats extends Component{
                 compareMode = {this.state.compareMode}
                 clearSelectedCountriesForCompare = {this.clearSelectedCountriesForCompare}
                 showCompareResults = {this.showCompareResults}
+                confirmedColor={confirmedColor}
+                deathsColor={deathsColor}
+                recoveredColor={recoveredColor}
             /> :
             <WorldMap
                 countryStats = {this.state.countryStats}

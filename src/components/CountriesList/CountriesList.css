@@ -7,6 +7,7 @@
 
 .country-row{
     margin: 30px 0;
+    text-align: left;
 }
 
 .selected-country {

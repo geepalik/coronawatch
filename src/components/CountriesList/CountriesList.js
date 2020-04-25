@@ -42,10 +42,10 @@ const CountriesList = (props) => {
                                 data-id={countryData.country}
                                 onClick={setClickedCountry}
                             >
-                                {countryData.country}
-                                Confirmed: {countryData['country_total_stats']['confirmed']}
-                                Deaths: {countryData['country_total_stats']['deaths']}
-                                Recovered: {countryData['country_total_stats']['recovered']}
+                                <span>{countryData.country}</span>
+                                <span style={{color:props.confirmedColor}}>Confirmed: {countryData['country_total_stats']['confirmed']}</span>
+                                <span>Deaths: {countryData['country_total_stats']['deaths']}</span>
+                                <span>Recovered: {countryData['country_total_stats']['recovered']}</span>
                             </li>
                         );
                     }
