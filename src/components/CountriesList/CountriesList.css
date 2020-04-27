@@ -7,10 +7,11 @@
 
 .country-row{
     margin: 10px 0;
+    background-color: white;
 }
 
 .selected-country {
-    border: 1px solid blue;
+    border: 10px solid blue;
 }
 
 .country-indication {

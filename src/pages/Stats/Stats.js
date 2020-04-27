@@ -5,6 +5,7 @@ import WorldMap from "../../components/WorldMap/WorldMap";
 import WorldChart from "../../components/Charts/WorldChart/WorldChart"
 import CountriesStatsPopup from "../../components/Charts/CountriesStatsPopup/CountriesStatsPopup";
 import CountriesList from "../../components/CountriesList/CountriesList";
+import Button from '@material-ui/core/Button';
 import './Stats.css';
 
 const apiUrl = "http://localhost:8080";
@@ -84,6 +85,11 @@ class Stats extends Component{
             countryStats: data.country_stats
         });
     };
+
+    refreshData = () =>{
+        this.setState({loadingData: true});
+        this.getData();
+    }
 
     /**
      * return dates (x axis) and stats (y axis) for charts
@@ -232,6 +238,9 @@ class Stats extends Component{
                     <Loader type="ThreeDots" color="#2BAD60" height={100} width={100} />
                 ) :
                     <div className="stats-container">
+                        <Button variant="contained" color="primary" onClick={this.refreshData}>
+                            Refresh Data
+                        </Button>
                         <div className="stats-child">
                             {countriesContent}
                         </div>
@@ -242,7 +251,6 @@ class Stats extends Component{
                                 confirmedColor={confirmedColor}
                                 deathsColor={deathsColor}
                                 recoveredColor={recoveredColor}
-                                chartOptions={chartOptions}
                             />
                         </div>
                     </div>

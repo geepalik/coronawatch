@@ -218,7 +218,7 @@ const WorldMap = ({countryStats, getRowFromObject, selectedCountries, setClicked
             </div>
             <div className="indicator">
                 <div style={getGradientStyle()} className="indicator-gradient"></div>
-                <span>1 - 100K+ Confirmed COVID-19 Cases</span>
+                <span style={{color:"white"}}>1 - 100K+ Confirmed COVID-19 Cases</span>
             </div>
         </div>
     );
