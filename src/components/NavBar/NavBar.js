@@ -9,7 +9,7 @@ const NavBar = () => {
             <AppBar position="static">
                 <Toolbar>
                     <Typography variant="h4" color="inherit">
-                        CoronaWatch
+                        CoronaWatch - COVID-19 World Statistics
                     </Typography>
                 </Toolbar>
             </AppBar>
