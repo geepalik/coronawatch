@@ -77,8 +77,7 @@ class Stats extends Component{
     };
 
     getData = async () => {
-        const response = await axios(apiUrl+'/coronawatch/stats');
-        const data = response.data;
+        const {data} = await axios(apiUrl+'/coronawatch/stats');
         this.setState({
             loadingData: false,
             totalWorldStats: data.world_stats[0],
