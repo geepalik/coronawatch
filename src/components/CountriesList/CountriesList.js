@@ -39,32 +39,36 @@ const CountriesList = (props) => {
             <div className="countries-list-container">
                 <List component="nav">
                     {props.countryStats.map((countryData, i) => {
-                        if(countryData.country_total_stats && countryData.country_total_stats.hasOwnProperty('confirmed')){
-                            return (
-                                <ListItem
-                                    key={i}
-                                    className="country-row"
-                                    data-id={countryData.country}
-                                    onClick={(event) => setClickedCountry(event, countryData.country)}
-                                >
-                                    <ListItemText
-                                        primary={countryData.country}
-                                        secondary={
-                                            <Fragment>
-                                                <span style={{color:props.confirmedColor}}>
-                                                    Confirmed: {countryData['country_total_stats']['confirmed']}
-                                                </span>
-                                                <span className="country-indication" style={{color:props.deathsColor}}>
-                                                    Deaths: {countryData['country_total_stats']['deaths']}
-                                                </span>
-                                                <span className="country-indication" style={{color:props.recoveredColor}}>
-                                                    Recovered: {countryData['country_total_stats']['recovered']}
-                                                </span>
-                                            </Fragment>
-                                        }/>
-                                </ListItem>
-                            );
+                        if(
+                            !countryData.country_total_stats ||
+                            !countryData.country_total_stats.hasOwnProperty('confirmed')
+                        ) {
+                            return ""
                         }
+                        return (
+                            <ListItem
+                                key={i}
+                                className="country-row"
+                                data-id={countryData.country}
+                                onClick={(event) => setClickedCountry(event, countryData.country)}
+                            >
+                                <ListItemText
+                                    primary={countryData.country}
+                                    secondary={
+                                        <Fragment>
+                                            <span style={{color:props.confirmedColor}}>
+                                                Confirmed: {countryData['country_total_stats']['confirmed']}
+                                            </span>
+                                            <span className="country-indication" style={{color:props.deathsColor}}>
+                                                Deaths: {countryData['country_total_stats']['deaths']}
+                                            </span>
+                                            <span className="country-indication" style={{color:props.recoveredColor}}>
+                                                Recovered: {countryData['country_total_stats']['recovered']}
+                                            </span>
+                                        </Fragment>
+                                    }/>
+                            </ListItem>
+                        );
                     })}
                 </List>
             </div>
