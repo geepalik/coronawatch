@@ -8,7 +8,6 @@ import CountriesList from "../../components/CountriesList/CountriesList";
 import Button from '@material-ui/core/Button';
 import './Stats.css';
 
-const apiUrl = "http://localhost:8080";
 const confirmedColor = 'red';
 const deathsColor = 'black';
 const recoveredColor = 'green';
@@ -77,7 +76,7 @@ class Stats extends Component{
     };
 
     getData = async () => {
-        const {data} = await axios(apiUrl+'/coronawatch/stats');
+        const {data} = await axios(process.env.REACT_APP_API_URL+'/coronawatch/stats');
         this.setState({
             loadingData: false,
             totalWorldStats: data.world_stats[0],
