@@ -76,7 +76,7 @@ class Stats extends Component{
     };
 
     getData = async () => {
-        const {data} = await axios(process.env.REACT_APP_API_URL+'/coronawatch/stats');
+        const {data} = await axios('https://corona-watch-server.herokuapp.com/coronawatch/stats');
         this.setState({
             loadingData: false,
             totalWorldStats: data.world_stats[0],
