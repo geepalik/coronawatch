@@ -1,6 +1,11 @@
 language: node_js
 node_js:
-  - 10
+- 10
 script:
-  - npm test
-  - npm run build
+- npm test
+- npm run build
+deploy:
+  provider: heroku
+  api_key:
+    secure: nNK/FsXZu65fAg7kQJISgUXWEn3N1XIZ2MN78CZr7aJCd919eK4KTQinl3EIQce4P6cnlVIZlzEuXMpOkf5fGeNgXaLk4wGmHfAW0Ixrs2nhvK2gGjJt6bIVB7Fr3o94g3JMkDemBOHwwnLt7OINZVgPBDpIC99V1FemcMN/TVvM9Sa3a43+GDVnjuwJcnPcLfYsNYbpn+3N/EugRP0sbbwqLZACpm84gmgnRMGpnI0bia9nHJ6MtP0zmxZiVPJeSDzZKWv15969jK6CDBKzv5IjgB1kU7Y8jB1vSwUcfAL6KGzBROdWO5qPCUJY+ijgT4lZFue7F4YeCMzSLdu2sq3uC+Az/wMNUwynTEYPch1JgtwOQaKabyZK+i4AQAGZMGE0ing/0d24t6mSzSB/5Ht3fCVv4/vNIThEABKPJ6MHt8RLemlgBMZ1e7Rxt0H0/9ijdqyHcMys3+2nhluFpWPw9FAFUdBWUZaaqhz4p85gs6pem3RQYeoeU4hYSn0POiCFPSl9IgzB4ysYz8Mt5Pf8fzFN9HLWDs06iejhBBEqg1o+EBEPVnzqamhHWFlS22TCMqOTxdwzXsSeL0Hb0PknMCswWmkz2hr79PW6RwdJbj2CjKmECOQbntefsXtooE8TODNDCcqOHpgManKZKsmyFDH/vjuXq+yj8ydNaHQ=
+  app: corona-watch-app
