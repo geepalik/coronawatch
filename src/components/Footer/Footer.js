@@ -40,7 +40,7 @@ const Footer = () => (
                     username: 'custom twitter handle' // (only for twitter sharing)
                 }}
             />
-            <a className="bmc-button" target="_blank" href="https://www.buymeacoffee.com/geepalik">
+            <a className="bmc-button" target="_blank" rel="noopener noreferrer" href="https://www.buymeacoffee.com/geepalik">
                 <img
                 src="https://cdn.buymeacoffee.com/buttons/bmc-new-btn-logo.svg" alt="Buy me a coffee" />
                     <span style={{"margin-left":"15px","font-size":"28px !important;"}}>Buy me a coffee</span>
@@ -49,7 +49,7 @@ const Footer = () => (
         <Grid container justify={"center"} spacing={2}>
             <Grid item xs={12} sm={6} md={3}>
                 <Typography align={"center"} gutterBottom color={"textSecondary"}>
-                    <a href="https://corona.lmao.ninja/" target="_blank" rel="noreferrer">Data Source</a>
+                    <a href="https://corona.lmao.ninja/" rel="noopener noreferrer" target="_blank" rel="noreferrer">Data Source</a>
                 </Typography>
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
