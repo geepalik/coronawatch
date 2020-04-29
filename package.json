@@ -17,10 +17,11 @@
     "react-loader-spinner": "^3.1.5",
     "react-scripts": "3.4.1",
     "react-simple-maps": "^2.0.0",
-    "react-tooltip": "^4.2.2"
+    "react-tooltip": "^4.2.2",
+    "serve": "^11.3.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "serve -s build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
