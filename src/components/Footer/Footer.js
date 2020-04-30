@@ -7,9 +7,18 @@ import './Footer.css';
 
 const Footer = () => (
     <div style={{ maxWidth: 700, margin: "auto", textAlign: "center", color: "white" }}>
-        <Typography variant="caption" align={"center"}>
-            © Copyright 2020 Gil Palikaras
-        </Typography>
+        <Grid container justify={"center"} spacing={2}>
+            <Grid item xs={12} sm={6} md={3}>
+                <Typography align={"center"} color={"textSecondary"}>
+                    <a href="https://corona.lmao.ninja/" rel="noopener noreferrer" target="_blank">Data Source</a>
+                </Typography>
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+                <Typography align={"center"} color={"textSecondary"}>
+                    <a href="mailto:gil.palikaras@gmail.com">Contact</a>
+                </Typography>
+            </Grid>
+        </Grid>
         <Divider style={{ margin: "24px auto", width: 60 }} />
         <Grid container justify={"center"} spacing={2}>
             <InlineShareButtons
@@ -47,15 +56,10 @@ const Footer = () => (
             </a>
         </Grid>
         <Grid container justify={"center"} spacing={2}>
-            <Grid item xs={12} sm={6} md={3}>
-                <Typography align={"center"} gutterBottom color={"textSecondary"}>
-                    <a href="https://corona.lmao.ninja/" rel="noopener noreferrer" target="_blank">Data Source</a>
-                </Typography>
-            </Grid>
-            <Grid item xs={12} sm={6} md={3}>
-                <Typography align={"center"} gutterBottom color={"textSecondary"}>
-                    <a href="mailto:gil.palikaras@gmail.com">Contact</a>
-                </Typography>
+            <Grid item xs={12}>
+                    <Typography variant="caption" align={"center"}>
+                        © Copyright 2020 Gil Palikaras
+                    </Typography>
             </Grid>
         </Grid>
     </div>
