@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/geepalik/coronawatch.svg?branch=master)](https://travis-ci.org/geepalik/coronawatch)
 # CoronaWatch - COVID-19 World Statistics
 Statistics about spread of COVID-19 in the world and compare statistics between countries
 
