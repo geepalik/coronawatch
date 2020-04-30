@@ -40,10 +40,10 @@ const Footer = () => (
                     username: 'custom twitter handle' // (only for twitter sharing)
                 }}
             />
-            <a className="bmc-button" target="_blank" rel="noopener noreferrer" href="https://www.buymeacoffee.com/geepalik">
+            <a className="gh-button" target="_blank" rel="noopener noreferrer" href="https://github.com/geepalik/coronawatch">
                 <img
-                src="https://cdn.buymeacoffee.com/buttons/bmc-new-btn-logo.svg" alt="Buy me a coffee" />
-                    <span style={{"margin-left":"15px","font-size":"28px !important;"}}>Buy me a coffee</span>
+                src="http://vagnervjs.github.io/social-signin-btns/img/github.svg" alt="Github" />
+                    <span style={{"margin-left":"15px","font-size":"28px !important;"}}>Github</span>
             </a>
         </Grid>
         <Grid container justify={"center"} spacing={2}>
