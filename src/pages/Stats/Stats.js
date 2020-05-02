@@ -9,7 +9,7 @@ import Button from '@material-ui/core/Button';
 import './Stats.css';
 
 const confirmedColor = 'red';
-const deathsColor = 'black';
+const deathsColor = '#bf45e8';
 const recoveredColor = 'green';
 
 const chartOptions = {
