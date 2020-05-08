@@ -85,7 +85,10 @@ class Stats extends Component{
     };
 
     refreshData = () =>{
-        this.setState({loadingData: true});
+        this.setState({
+            loadingData: true,
+            compareMode: false
+        });
         this.getData();
     }
 
