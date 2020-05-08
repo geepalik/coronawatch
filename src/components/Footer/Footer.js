@@ -52,7 +52,7 @@ const Footer = () => (
             <a className="gh-button" target="_blank" rel="noopener noreferrer" href="https://github.com/geepalik/coronawatch">
                 <img
                 src="http://vagnervjs.github.io/social-signin-btns/img/github.svg" alt="Github" />
-                    <span style={{"margin-left":"15px","font-size":"28px !important;"}}>Github</span>
+                    <span>Github</span>
             </a>
         </Grid>
         <Grid container justify={"center"} spacing={2}>

@@ -15,6 +15,10 @@ a:hover {
     vertical-align: middle!important;
 }
 
+.gh-button span{
+    margin-left: 15px;
+}
+
 .gh-button{
     background-color: #2A2A2A;
     line-height: 16px!important;
