@@ -10,7 +10,6 @@ const comparedCountryElement = ".countries-list-container li[compare]";
 const CountriesList = (props) => {
 
     function setClickedCountry(e, countryName) {
-        //const countryName = e.target.dataset.id;
         props.setClickedCountry(countryName);
         if(props.compareMode){
             if(props.selectedCountries.indexOf(countryName) > -1){
